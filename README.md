@@ -46,6 +46,28 @@ flowchart TD
     H["Edge reporting: Bluetooth temporary return (concept, bench only)"] -. replaces the estimate .-> B
 ```
 
+## Architecture at a glance
+
+The work is split into eight layers, each with its own diagram. Five are drawn in this repo (L2, L3, L4, L5, L8); collection (L1), governance (L6) and off-dock reporting (L7) are named only.
+
+```mermaid
+flowchart LR
+    L1["L1 Collection<br/>official snapshots, weather, notices"] --> L2["L2 Data and reference tables<br/>calendar, usual-level base table, 2 km circles"]
+    L3["L3 Definitions<br/>levels, parameters, service day"] --> L4
+    L2 --> L4["L4 Dispatch algorithm<br/>shortage, forward routes, trucks"]
+    L7["L7 Off-dock reporting<br/>Bluetooth or manual (concept)"] -.-> L4
+    L4 --> L5["L5 Observation and reports"]
+    L4 --> L8["L8 Presentation<br/>console, task pages"]
+    L6["L6 Governance<br/>process gates, quality checks"] -.-> L2
+    L6 -.-> L4
+```
+
+![Layered architecture overview](./architecture/INDEX.svg)
+
+The dispatch logic itself is decoupled into six layers (data, geometry, regional level, forward routing, station, measurement); each depends only on what the layer above hands over:
+
+![Dispatch logic, decoupled into layers](./architecture/DISPATCH_LOGIC.svg)
+
 ## Why ask the question differently
 
 Bike-share station data is public, and in the author's observation it is a common topic in hackathons and data contests (not counted year by year). The usual approach is to predict which station will run short. But station data only records docked bikes; bikes parked outside the docks are not in the data. This study asks a different question: how should the layer you cannot see be pre-positioned?
@@ -91,6 +113,38 @@ Trucks per time slot versus the completion deadline (96-circle replay):
 
 A longer deadline lowers the number of trucks running at once, but total workload stays about the same (about 7.4–7.9 truck-hours), so it is not a saving in labour.
 
+```mermaid
+xychart-beta
+    title "Trucks per time slot versus completion deadline (96-circle replay)"
+    x-axis ["60 min", "120 min", "180 min"]
+    y-axis "Trucks per slot" 0 --> 9
+    bar [7.9, 3.7, 2.6]
+```
+
+How sensitive is the result to the one assumption that cannot be measured? Average shortage that remains after ideal dispatch, by assumed number of off-dock bikes (all slots, main 72 circles):
+
+```mermaid
+xychart-beta
+    title "Remaining shortage (bikes) versus assumed off-dock bikes"
+    x-axis ["0", "1,000", "2,000", "4,262", "6,000", "8,000"]
+    y-axis "Bikes still short" 0 --> 330
+    bar [314.9, 129.5, 46.5, 4.75, 0.93, 0.16]
+```
+
+### A worked example: one truck, one trip
+
+A trial batch from 2026-10-08. The truck loads 14 bikes at a surplus circle and unloads at three short circles, every leg within 2 km and none doubling back (straight-line distances between circle centres; schematic, not to scale):
+
+```mermaid
+flowchart LR
+    A["Banxin<br/>load 14"] --> B["Banqiao Stn<br/>unload 1<br/>820 m from Banxin"]
+    B --> C["Banqiao Bus<br/>unload 9<br/>1,025 m from Banxin"]
+    C --> D["Fuzhong<br/>unload 4<br/>1,464 m from Banxin"]
+```
+
+About 1.7 km in total, 14 bikes, all inside one 120-degree sector. Slides 14 and 15 of the deck show a full batch and this route.
+
+
 ## The edge device (concept)
 
 The idea is that, at a full station, a rider uses a virtual dock beside the station to register a temporary return over Bluetooth (press the button on the bike unit and pair with the virtual dock). It is recorded in this study's own log, never sent into any operator system. The physical lock and billing stay with the operator; nothing here unlocks, controls a lock, or changes billing.
@@ -98,6 +152,22 @@ The idea is that, at a full station, a rider uses a virtual dock beside the stat
 - **A temporary return is not an official return. Billing does not stop. Do not leave a bike outside the docks because of it. Reports are unverified signals and never drive dispatch on their own.**
 - Verified so far: bike unit → advertisement → gateway on a bench (2026-08-28), and gateway → console in a local drill. Not done: uploading over the network, multiple boards, pairing with real bikes, comparison with operator data.
 - Report fields: which station, how many, when, and a reporter code. No rider identity and no bike number is collected.
+
+The sequence for one temporary return:
+
+```mermaid
+sequenceDiagram
+    participant R as Rider
+    participant B as Bike unit
+    participant V as Virtual dock (gateway)
+    participant C as Local console
+    R->>B: presses the button at a full station
+    B->>V: short Bluetooth advertisement with an authentication code
+    V->>V: de-duplicate, apply cooldown
+    V->>C: one temporary-return record (station, count, time, reporter code)
+    C->>C: the report replaces the assumed off-dock count
+    Note over R,C: The physical lock and billing stay with the operator
+```
 
 ## How to read the deck
 
@@ -111,6 +181,38 @@ The idea is that, at a full station, a rider uses a virtual dock beside the stat
 | 13–15 | Peak versus off-peak, the one-button batch output, a sample route |
 | 16–17 | Results, and how the proposal maps to existing arrangements |
 | 18–20 | What is done, scope and next steps, data and compliance notes |
+
+## What the local console looks like
+
+Screenshots of the author's local console (data batch 2026-10-21 22:25, captured 23:04). The console UI is in Traditional Chinese; the strip above each image is in English. Algorithmic estimates, not operating results.
+
+**29-district overview** (docking demand by district):
+
+![29-district overview](./console/console_1_districts.png)
+
+**One button**: dispatch volume per 2 km circle and circle-to-circle moves:
+
+![One button](./console/console_2_one_button.png)
+
+**Dispatch logic**: forward routes and the number of trucks:
+
+![Forward routes and number of trucks](./console/console_3_dispatch_logic.png)
+
+## Glossary
+
+| Term | Meaning in this study |
+|---|---|
+| Off-dock bike | A bike parked beside a full station or otherwise outside the docks; absent from official station data |
+| Usual level | A station's median docked bikes for a given window and day type; used as its target |
+| 2 km circle | A shared-reservoir circle; a station within 2,000 m of a circle centre belongs to it; circles may overlap |
+| Window | One of four evaluation times: 05:30, 10:00, 15:30, 23:00 |
+| Shortage | Target level minus current level (docked plus estimated off-dock) |
+| Remaining shortage | What is still short after ideal dispatch and the assumed reserve; a lower bound |
+| Reserve | The self-estimated upper bound of 4,262 off-dock bikes, a scenario assumption |
+| Forward route | An ordered run of loads and unloads: at most 14 bikes per truck, each leg at most 2 km, no backtracking |
+| Temporary return | A concept: a Bluetooth report that a bike was left at a full station; not an official return |
+| Clean slot | A time slot whose station data passed the quality checks (280 between 2026-07-21 and 10-15) |
+| One button | The local console panel that gives routes, number of trucks and latest departure for the latest batch |
 
 ## FAQ
 
@@ -136,6 +238,19 @@ The idea is that, at a full station, a rider uses a virtual dock beside the stat
 1. Oct–Nov 2026: end-to-end verification of bike unit + gateway uploading over the network.
 2. Nov–Dec 2026: with an operator, compare estimates against its official data in 2–3 two-kilometre circles (not yet approached).
 3. Jan 2027: use reports to correct reserve allocation; add stop time and the real road network.
+
+```mermaid
+gantt
+    title 90-day verification path (a plan, not a commitment)
+    dateFormat YYYY-MM-DD
+    axisFormat %b %Y
+    section Device
+    Bike unit and gateway uploading over the network :2026-10-22, 2026-11-30
+    section With an operator
+    Compare estimates in 2-3 two-kilometre circles :2026-11-15, 2026-12-31
+    section Refinement
+    Reports correct reserve allocation, add stop time and real roads :2027-01-01, 2027-01-31
+```
 
 ## Licence
 
