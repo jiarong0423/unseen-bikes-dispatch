@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+type: dataset
+message: "如果你引用這份作品，請依下列資訊標示作者。"
+title: "共享單車「臨時無車位可還」：邊緣回報＋調度演算法（概念驗證）"
+authors:
+  - family-names: "孫"
+    given-names: "嘉嶸"
+    alias: "Sun Jia-Rong"
+date-released: "2026-10-21"
+license: CC-BY-NC-ND-4.0
+repository: "https://github.com/jiarong0423/unseen-bikes-dispatch"
+url: "https://github.com/jiarong0423/unseen-bikes-dispatch"
+abstract: "站滿時車停在柱外，官方站況資料看不到。本研究以公開資料與回放推演，提出兩公里共用水庫圈、順向排線與離峰少量貨車預置的調度方法；結果是演算法推演，不是營運成效。"

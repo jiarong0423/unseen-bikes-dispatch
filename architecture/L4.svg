@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="479" viewBox="0 0 1180 479" font-family="PingFang TC, Noto Sans TC, sans-serif"><metadata>© 孫嘉嶸　獨立研究　2026-10-21｜jiarong0423@gmail.com</metadata>
+<rect width="1180" height="479" fill="#ffffff"/>
+<text x="24" y="40" font-size="26" font-weight="700" fill="#222">L4　派工演算法</text>
+<text x="24" y="68" font-size="15" fill="#444">貨車＝兩公里區域內的水位平衡；每 30 分鐘算一批並記錄</text>
+<rect x="24" y="96" width="560" height="93" rx="8" fill="#f2f5f9" stroke="#5b6f8a" stroke-width="2"/>
+<text x="38" y="124" font-size="17" font-weight="700" fill="#222">派工線入口</text>
+<text x="38" y="153" font-size="14" fill="#333">每 30 分鐘跑一次，記下每批結果</text>
+<text x="38" y="177" font-size="13" fill="#5b6f8a">觸發：定時（每 30 分）</text>
+<rect x="604" y="96" width="560" height="93" rx="8" fill="#f2f5f9" stroke="#5b6f8a" stroke-width="2"/>
+<text x="618" y="124" font-size="17" font-weight="700" fill="#222">區域水位平衡與缺口</text>
+<text x="618" y="153" font-size="14" fill="#333">各圈目標水位總量減現況</text>
+<text x="618" y="177" font-size="13" fill="#5b6f8a">觸發：每批計算</text>
+<rect x="24" y="209" width="560" height="93" rx="8" fill="#f2f5f9" stroke="#5b6f8a" stroke-width="2"/>
+<text x="38" y="237" font-size="17" font-weight="700" fill="#222">真實缺車</text>
+<text x="38" y="266" font-size="14" fill="#333">以兩公里圈為單位，扣掉備用車（推估）後仍缺的量</text>
+<text x="38" y="290" font-size="13" fill="#5b6f8a">觸發：每批計算</text>
+<rect x="604" y="209" width="560" height="93" rx="8" fill="#f2f5f9" stroke="#5b6f8a" stroke-width="2"/>
+<text x="618" y="237" font-size="17" font-weight="700" fill="#222">順向排線</text>
+<text x="618" y="266" font-size="14" fill="#333">把圈到圈的調度排成一趟一趟：載量 14、每段不超過 2 公里、不折返</text>
+<text x="618" y="290" font-size="13" fill="#5b6f8a">觸發：每批計算</text>
+<rect x="24" y="322" width="560" height="93" rx="8" fill="#f2f5f9" stroke="#5b6f8a" stroke-width="2"/>
+<text x="38" y="350" font-size="17" font-weight="700" fill="#222">一個按鍵</text>
+<text x="38" y="379" font-size="14" fill="#333">缺車流量→順向路線→要派幾台貨車與最晚出發時間</text>
+<text x="38" y="403" font-size="13" fill="#5b6f8a">觸發：每次畫面重建時計算</text>
+<text x="24" y="465" font-size="12" fill="#777">架構示意（公開版，已簡化）｜演算法推演，不是營運成效</text>
+<g opacity="0.08" transform="rotate(-20 590 240)"><text x="590" y="254" text-anchor="middle" font-size="42" font-weight="bold" fill="#0b3a63" font-family="PingFang TC, Noto Sans TC, sans-serif">© 孫嘉嶸　獨立研究　2026-10-21</text></g>
+</svg>

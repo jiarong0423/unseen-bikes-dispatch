@@ -1,0 +1,16 @@
+{
+  "title": "共享單車「臨時無車位可還」：邊緣回報＋調度演算法（概念驗證）",
+  "upload_type": "publication",
+  "publication_type": "technicalnote",
+  "description": "站滿時車停在柱外，官方站況資料看不到。本研究以公開資料與回放推演，提出兩公里共用水庫圈、順向排線與離峰少量貨車預置的調度方法；結果是演算法推演，不是營運成效，沒有現場部署。",
+  "creators": [
+    {
+      "name": "孫, 嘉嶸",
+      "affiliation": "Independent researcher"
+    }
+  ],
+  "access_right": "open",
+  "license": "cc-by-nc-nd-4.0",
+  "language": "zho",
+  "keywords": ["bike sharing", "rebalancing", "edge reporting", "dispatch algorithm", "YouBike", "共享單車", "調度"]
+}
