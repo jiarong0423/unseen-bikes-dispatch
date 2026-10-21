@@ -8,7 +8,7 @@ Plain-language summary (not a substitute for the legal code):
 - You may: copy, redistribute and share the work in any medium or format.
 - Conditions: credit the author "Sun Jia-Rong (孫嘉嶸)" and link to the licence; no commercial use; do not distribute adapted versions (private, non-commercial adaptation and technical format conversion allowed by the licence excepted).
 - Please cite as: Sun Jia-Rong, "Bike-share 'no dock to return to': edge reporting and an off-peak dispatch algorithm (proof of concept)", 2026-10-21, https://github.com/jiarong0423/unseen-bikes-dispatch
-- DOI: https://doi.org/10.5281/zenodo.23537185 (all versions); latest version v1.0.1: 10.5281/zenodo.23537764
+- DOI: https://doi.org/10.5281/zenodo.23537185 (all versions; always resolves to the latest version)
 
 Not covered by this licence:
 1. Patents: the author has a separate Taiwanese patent application whose subject differs from the method described here. This licence covers copyright only and grants no express or implied patent licence, trademark right or other right.

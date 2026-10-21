@@ -1,6 +1,6 @@
 # Method
 
-This document writes the approach behind the slides as a readable, checkable specification. All numbers are **algorithmic replay estimates** from official public station data, not operating results. The off-dock bike count is a **self-estimated upper bound derived from official data**, not a field measurement. The document discloses method and results; it does not contain code, raw snapshots, keys or the packet format.
+This document writes the approach behind the slides as a readable specification. All numbers are **algorithmic replay estimates** from official public station data, not operating results. The off-dock bike count is a **self-estimated upper bound derived from official data**, not a field measurement. The document discloses method and results; it does not contain code, raw snapshots, keys or the packet format.
 
 ## 1. The problem
 
@@ -19,8 +19,8 @@ A field example (one station, one moment, counted by eye; not a distribution and
 
 1. **Each station's target level is its own usual level**, not a city-wide ratio. "Usual" comes from a base table: the median docked level per station, per window and per day type (holidays follow the official calendar); special-event days and typhoon-closure days are excluded.
 2. **The unit is a 2 km shared-reservoir circle**: a station belongs to a circle if it is within 2,000 m of the circle centre. Circles may overlap (shared stations are the channels through which bikes move between circles).
-3. **Four evaluation windows**: 05:30, 10:00, 15:30, 23:00. 05:30 and 15:30 are completion deadlines for trucks.
-4. **Shortage** = target total level minus current level (docked + estimated off-dock). The off-dock count uses a self-estimated upper bound of 4,262 bikes (derived from the difference between docked bikes at 03:00–04:00 and the fleet lower bound; not measured). See the sensitivity table in section 5.
+3. **Four evaluation windows**: 05:30, 10:00, 15:30, 23:00. 05:30 and 15:30 are completion deadlines for trucks; the one-button batch applies a 120-minute deadline to every window (for example the 23:00 window needs the latest departure at 21:00).
+4. **Shortage** = target total level minus current docked level. The estimated off-dock (reserve) bikes are then counted against it: **remaining shortage = shortage − truck moves − reserve**. The off-dock count uses a self-estimated upper bound of 4,262 bikes (derived from the difference between docked bikes at 03:00–04:00 and the fleet lower bound; not measured; it is a bound on bikes not on docks, so it may include bikes that are rented, broken or in trucks, not only bikes parked beside full stations). See the sensitivity table in section 5.
 5. **Trucks only handle what can be moved directly within 2 km**; the rest relies on each circle's reserve bikes being re-docked (motorbike staff re-dock bikes: layer change, total unchanged).
 6. **Forward-route rules**: at most 14 bikes per truck; each leg at most 2 km; no backtracking (all legs inside one 120° sector).
 7. **Number of trucks**: trucks leave from depots (three approximate Taipei-side locations: Wanhua, Neihu, Gongguan/Da'an; coordinates are landmark approximations, not street addresses), at 40 km/h, detour factor 1.3, no stop time; the minimum number of trucks needed to finish within the deadline is reported under three loading-time assumptions (optimistic / middle / conservative).
@@ -52,22 +52,24 @@ Trucks versus completion deadline (96 circles citywide replay; 40 km/h, detour 1
 |---|---:|---:|---:|
 | Trucks per slot | 7.9 | 3.7 | 2.6 |
 
-Others: weekday remaining shortage 0.6–3.6 bikes (7 out-of-sample days); trucks directly resolve about 8%–26% of the shortage; the National Day holiday at 15:30 has the largest shortage (2,628 bikes, 253 remaining; a lower bound).
+Others: weekday remaining shortage 0.6–3.6 bikes (weekday slots of the 10 out-of-sample days, 2026-10-06 to 10-15, main 72 circles); trucks directly resolve about 8%–26% of the shortage; the National Day holiday at 15:30 has the largest shortage (per-slot average over the three days, 96-circle basis: shortage 2,628 bikes, 253 remaining; a lower bound). Mid-Autumn 15:30 (four days) averages 493 and 9.8.
 
 ## 6. Limitations (stated up front)
 
-- "Remaining shortage" in this repo is what the Traditional Chinese console UI calls "真實缺車" and the Chinese drafts call "補完仍缺": the same quantity.
-- "Shortage" here means: the circles' target total level minus the current level (docked + estimated off-dock). Denominators differ between pages (72 vs 96 circles; one batch vs a 280-slot replay), so figures are not directly comparable. "Trucks directly resolve 8%–26%" is a replay average; a single batch (for example the one-button batch) can differ.
+- "Remaining shortage" in this repo is what the Traditional Chinese console UI calls "真實缺車": the same quantity.
+- "Shortage" here means: the circles' target total level minus the current docked level (reserve bikes are counted afterwards). Denominators differ between pages (72 vs 96 circles; one batch vs a 280-slot replay), so figures are not directly comparable. "Trucks directly resolve 8%–26%" is a replay average; a single batch (for example the one-button batch) can differ.
 - A longer deadline reduces the number of trucks running at the same time, but total workload is about the same (about 7.4–7.9 truck-hours), so it is not a saving in labour.
-- "Weekday remaining shortage 0.6–3.6" is from 7 out-of-sample days; the sensitivity table in section 5 (weekday 15:30: 9.11, 10:00: 3.72) is the 280-slot average. Sample and basis differ; do not compare directly.
-- "Trucks directly resolve 8%–26%" is the range of averages over the 280-slot replay; the one known single batch (2026-10-21 18:59, 23:00 window) shows about 54%, above this range, for reasons not yet investigated (denominator, window, day type). Not directly comparable.
+- "Weekday remaining shortage 0.6–3.6" is from the weekday slots of the 10 out-of-sample days (2026-10-06 to 10-15); the sensitivity table in section 5 (weekday 15:30: 9.11, 10:00: 3.72) is the 280-slot average. Sample and basis differ; do not compare directly.
+- "Trucks directly resolve 8%–26%" is the range of averages over the 280-slot replay; both single batches published here (2026-10-21 18:59, about 54%, and 22:25, about 49%, both for the 23:00 window) are above this range, for reasons not yet investigated (denominator, window, day type). This replay-versus-live gap is an open validation issue.
 - "Remaining shortage" is the value under the estimated reserve (4,262); with fewer reserve bikes the shortage is larger, so it is a lower bound.
+- The truck count (3.7 per slot) was computed only for the 4,262 assumption, on the 96-circle basis, with no stop time and straight-line distances; it was not recomputed for other off-dock counts. The sensitivity table's 6,000 and 8,000 columns are stress tests beyond the stated bound.
+- "Remaining shortage" measures distance from each station's usual level, not service outcome: a value near zero does not by itself mean fewer empty or full stations.
 - Details not published: how the minimum truck count is solved, the weights used to spread reserve bikes over circles, the criteria for clean days.
 - There is no citywide measurement of off-dock bikes; the field count is one station at one moment. Results are highly sensitive to this assumption, which is exactly the value of edge reporting.
 - The replay has no counterfactual and no field validation.
 - Distances are straight lines between circle centres, with no real road network and no stop time.
 - Patent: the author has a separate Taiwanese patent application whose subject differs from this method; this document grants no patent rights.
-- Data licensing and personal-data aspects are still being verified; redistribution of snapshots and scraping of announcements should be checked by counsel, so this repo contains neither raw snapshots nor code.
+- Source terms are reviewed per source; this repo does not redistribute raw snapshots and contains no code.
 
 ## 7. What this repo does not contain
 

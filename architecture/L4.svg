@@ -1,29 +1,30 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="500" viewBox="0 0 1180 500" font-family="Helvetica Neue, Arial, sans-serif"><metadata>© Sun Jia-Rong · Independent research · 2026-10-21 | jiarong0423@gmail.com</metadata>
-<rect width="1180" height="500" fill="#ffffff"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="542" viewBox="0 0 1180 542" font-family="Helvetica Neue, Arial, sans-serif"><metadata>© Sun Jia-Rong · Independent research · 2026-10-21 | jiarong0423@gmail.com</metadata>
+<rect width="1180" height="542" fill="#ffffff"/>
 <text x="24" y="40" font-size="26" font-weight="700" fill="#222">L4  Dispatch algorithm</text>
-<text x="24" y="68" font-size="15" fill="#444">Trucks balance the level inside 2 km regions; one batch is computed and logged every 30 minutes</text>
-<rect x="24" y="96" width="560" height="93" rx="8" fill="#f2f5f9" stroke="#5b6f8a" stroke-width="2"/>
-<text x="38" y="124" font-size="17" font-weight="700" fill="#222">Dispatch entry</text>
-<text x="38" y="153" font-size="14" fill="#333">Runs every 30 minutes and logs each batch</text>
-<text x="38" y="177" font-size="13" fill="#5b6f8a">Trigger: Scheduled (every 30 min)</text>
-<rect x="604" y="96" width="560" height="93" rx="8" fill="#f2f5f9" stroke="#5b6f8a" stroke-width="2"/>
-<text x="618" y="124" font-size="17" font-weight="700" fill="#222">Regional level and shortage</text>
-<text x="618" y="153" font-size="14" fill="#333">Target total level of each circle minus its current level</text>
-<text x="618" y="177" font-size="13" fill="#5b6f8a">Trigger: Per batch</text>
-<rect x="24" y="209" width="560" height="93" rx="8" fill="#f2f5f9" stroke="#5b6f8a" stroke-width="2"/>
-<text x="38" y="237" font-size="17" font-weight="700" fill="#222">Remaining shortage</text>
-<text x="38" y="266" font-size="14" fill="#333">Per 2 km circle: what is still short after the estimated reserve bikes are counted</text>
-<text x="38" y="290" font-size="13" fill="#5b6f8a">Trigger: Per batch</text>
-<rect x="604" y="209" width="560" height="114" rx="8" fill="#f2f5f9" stroke="#5b6f8a" stroke-width="2"/>
-<text x="618" y="237" font-size="17" font-weight="700" fill="#222">Forward routing</text>
-<text x="618" y="266" font-size="14" fill="#333">Order moves between circles into routes: 14 bikes per truck, each leg at most 2 km,</text>
-<text x="618" y="287" font-size="14" fill="#333">no backtracking</text>
-<text x="618" y="311" font-size="13" fill="#5b6f8a">Trigger: Per batch</text>
-<rect x="24" y="322" width="560" height="114" rx="8" fill="#f2f5f9" stroke="#5b6f8a" stroke-width="2"/>
-<text x="38" y="350" font-size="17" font-weight="700" fill="#222">One button</text>
-<text x="38" y="379" font-size="14" fill="#333">Shortage flow, then forward routes, then how many trucks and the latest departure</text>
-<text x="38" y="400" font-size="14" fill="#333">time</text>
-<text x="38" y="424" font-size="13" fill="#5b6f8a">Trigger: When the screen is rebuilt</text>
-<text x="24" y="486" font-size="12" fill="#777">Architecture sketch (public, simplified) | Algorithmic replay, not operating results</text>
-<g opacity="0.08" transform="rotate(-20 590 250)"><text x="590" y="260" text-anchor="middle" font-size="29" font-weight="bold" fill="#0b3a63" font-family="Helvetica Neue, Arial, sans-serif">© Sun Jia-Rong · Independent research · 2026-10-21</text></g>
+<text x="24" y="68" font-size="16" fill="#444">Trucks balance the level inside 2 km circles; one batch is computed and logged every 30 minutes</text>
+<rect x="24" y="96" width="560" height="98" rx="8" fill="#f2f5f9" stroke="#5b6f8a" stroke-width="2"/>
+<text x="38" y="124" font-size="19" font-weight="700" fill="#222">Dispatch entry</text>
+<text x="38" y="156" font-size="16" fill="#333">Runs every 30 minutes and logs each batch</text>
+<text x="38" y="180" font-size="15" fill="#5b6f8a">Trigger: Scheduled (every 30 min)</text>
+<rect x="604" y="96" width="560" height="98" rx="8" fill="#f2f5f9" stroke="#5b6f8a" stroke-width="2"/>
+<text x="618" y="124" font-size="19" font-weight="700" fill="#222">Circle level and shortage</text>
+<text x="618" y="156" font-size="16" fill="#333">Shortage = target total level of each circle minus its current docked level</text>
+<text x="618" y="180" font-size="15" fill="#5b6f8a">Trigger: Per batch</text>
+<rect x="24" y="214" width="560" height="122" rx="8" fill="#f2f5f9" stroke="#5b6f8a" stroke-width="2"/>
+<text x="38" y="242" font-size="19" font-weight="700" fill="#222">Remaining shortage</text>
+<text x="38" y="274" font-size="16" fill="#333">Per 2 km circle: what is still short after truck moves and the estimated</text>
+<text x="38" y="298" font-size="16" fill="#333">off-dock (reserve) bikes</text>
+<text x="38" y="322" font-size="15" fill="#5b6f8a">Trigger: Per batch</text>
+<rect x="604" y="214" width="560" height="122" rx="8" fill="#f2f5f9" stroke="#5b6f8a" stroke-width="2"/>
+<text x="618" y="242" font-size="19" font-weight="700" fill="#222">Forward routing</text>
+<text x="618" y="274" font-size="16" fill="#333">Order moves between circles into routes: 14 bikes per truck, each leg at</text>
+<text x="618" y="298" font-size="16" fill="#333">most 2 km, no backtracking</text>
+<text x="618" y="322" font-size="15" fill="#5b6f8a">Trigger: Per batch</text>
+<rect x="24" y="356" width="560" height="122" rx="8" fill="#f2f5f9" stroke="#5b6f8a" stroke-width="2"/>
+<text x="38" y="384" font-size="19" font-weight="700" fill="#222">One button</text>
+<text x="38" y="416" font-size="16" fill="#333">Shortage flow, then forward routes, then how many trucks and the latest</text>
+<text x="38" y="440" font-size="16" fill="#333">departure time</text>
+<text x="38" y="464" font-size="15" fill="#5b6f8a">Trigger: When the screen is rebuilt</text>
+<text x="24" y="528" font-size="13" fill="#777">Architecture sketch (public, simplified) | Algorithmic replay, not operating results</text>
+<g opacity="0.08" transform="rotate(-20 590 271)"><text x="590" y="282" text-anchor="middle" font-size="31" font-weight="bold" fill="#0b3a63" font-family="Helvetica Neue, Arial, sans-serif">© Sun Jia-Rong · Independent research · 2026-10-21</text></g>
 </svg>

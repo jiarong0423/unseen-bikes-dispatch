@@ -1,21 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="387" viewBox="0 0 1180 387" font-family="Helvetica Neue, Arial, sans-serif"><metadata>© Sun Jia-Rong · Independent research · 2026-10-21 | jiarong0423@gmail.com</metadata>
-<rect width="1180" height="387" fill="#ffffff"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="400" viewBox="0 0 1180 400" font-family="Helvetica Neue, Arial, sans-serif"><metadata>© Sun Jia-Rong · Independent research · 2026-10-21 | jiarong0423@gmail.com</metadata>
+<rect width="1180" height="400" fill="#ffffff"/>
 <text x="24" y="40" font-size="26" font-weight="700" fill="#222">L3  Definitions</text>
-<text x="24" y="68" font-size="15" fill="#444">Definitions of numbers and terms; change the definition here first</text>
-<rect x="24" y="96" width="560" height="114" rx="8" fill="#f2f5f9" stroke="#5b6f8a" stroke-width="2"/>
-<text x="38" y="124" font-size="17" font-weight="700" fill="#222">Level definition</text>
-<text x="38" y="153" font-size="14" fill="#333">Docked bikes and estimated reserve bikes are defined as two separate layers and</text>
-<text x="38" y="174" font-size="14" fill="#333">never mixed</text>
-<text x="38" y="198" font-size="13" fill="#5b6f8a">Trigger: Maintained by hand</text>
-<rect x="604" y="96" width="560" height="114" rx="8" fill="#f2f5f9" stroke="#5b6f8a" stroke-width="2"/>
-<text x="618" y="124" font-size="17" font-weight="700" fill="#222">Assumed parameters</text>
-<text x="618" y="153" font-size="14" fill="#333">Truck capacity 14, speed 40 km/h, detour factor 1.3 and similar assumptions are</text>
-<text x="618" y="174" font-size="14" fill="#333">kept in one place</text>
-<text x="618" y="198" font-size="13" fill="#5b6f8a">Trigger: Maintained by hand</text>
-<rect x="24" y="230" width="560" height="93" rx="8" fill="#f2f5f9" stroke="#5b6f8a" stroke-width="2"/>
-<text x="38" y="258" font-size="17" font-weight="700" fill="#222">Service-day boundary</text>
-<text x="38" y="287" font-size="14" fill="#333">00:00-05:30 counts as the previous day; the day changes at 05:30</text>
-<text x="38" y="311" font-size="13" fill="#5b6f8a">Trigger: Maintained by hand</text>
-<text x="24" y="373" font-size="12" fill="#777">Architecture sketch (public, simplified) | Algorithmic replay, not operating results</text>
-<g opacity="0.08" transform="rotate(-20 590 194)"><text x="590" y="203" text-anchor="middle" font-size="28" font-weight="bold" fill="#0b3a63" font-family="Helvetica Neue, Arial, sans-serif">© Sun Jia-Rong · Independent research · 2026-10-21</text></g>
+<text x="24" y="68" font-size="16" fill="#444">Definitions of numbers and terms; change the definition here first</text>
+<rect x="24" y="96" width="560" height="122" rx="8" fill="#f2f5f9" stroke="#5b6f8a" stroke-width="2"/>
+<text x="38" y="124" font-size="19" font-weight="700" fill="#222">Level definition</text>
+<text x="38" y="156" font-size="16" fill="#333">Docked bikes and estimated off-dock (reserve) bikes are defined as two</text>
+<text x="38" y="180" font-size="16" fill="#333">separate layers and never mixed</text>
+<text x="38" y="204" font-size="15" fill="#5b6f8a">Trigger: Maintained by hand</text>
+<rect x="604" y="96" width="560" height="122" rx="8" fill="#f2f5f9" stroke="#5b6f8a" stroke-width="2"/>
+<text x="618" y="124" font-size="19" font-weight="700" fill="#222">Assumed parameters</text>
+<text x="618" y="156" font-size="16" fill="#333">Truck capacity 14, speed 40 km/h, detour factor 1.3 and similar</text>
+<text x="618" y="180" font-size="16" fill="#333">assumptions are kept in one place</text>
+<text x="618" y="204" font-size="15" fill="#5b6f8a">Trigger: Maintained by hand</text>
+<rect x="24" y="238" width="560" height="98" rx="8" fill="#f2f5f9" stroke="#5b6f8a" stroke-width="2"/>
+<text x="38" y="266" font-size="19" font-weight="700" fill="#222">Service-day boundary</text>
+<text x="38" y="298" font-size="16" fill="#333">00:00-05:30 counts as the previous day; the day changes at 05:30</text>
+<text x="38" y="322" font-size="15" fill="#5b6f8a">Trigger: Maintained by hand</text>
+<text x="24" y="386" font-size="13" fill="#777">Architecture sketch (public, simplified) | Algorithmic replay, not operating results</text>
+<g opacity="0.08" transform="rotate(-20 590 200)"><text x="590" y="210" text-anchor="middle" font-size="28" font-weight="bold" fill="#0b3a63" font-family="Helvetica Neue, Arial, sans-serif">© Sun Jia-Rong · Independent research · 2026-10-21</text></g>
 </svg>

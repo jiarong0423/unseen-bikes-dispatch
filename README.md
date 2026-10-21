@@ -6,7 +6,7 @@
 
 **In one paragraph.** When a bike-share station is full, bikes end up parked outside the docks, and the official station data cannot see them. This study replays public station data to estimate how a few trucks, working off-peak along forward routes inside 2 km circles, could pre-position bikes before the peak, and how a Bluetooth "temporary return" could make the unseen bikes visible. It is an algorithmic replay, not operating results; nothing is deployed in the field.
 
-**The conclusion holds only under an assumption.** If 4,262 bikes are assumed to be parked off-dock (a self-estimated upper bound, not a measurement), about 3.7 trucks working within a 120-minute deadline can cover the shortage off-peak. With 0 off-dock bikes assumed, the weekday 15:30 shortage is still about 522.7 bikes. The result depends entirely on this assumption (sensitivity table below and in [METHOD.md](./METHOD.md)).
+**The conclusion holds only under an assumption.** If 4,262 bikes are assumed to be parked off-dock (a self-estimated upper bound, not a measurement), about 3.7 trucks per time slot (120-minute deadline, no stop time, 96-circle replay) could move the part of the shortage that can be moved directly within 2 km (a replay average of 8%–26%); the rest is assumed to be covered by re-docking the off-dock bikes at peak. With 0 off-dock bikes assumed, the weekday 15:30 shortage is still about 522.7 bikes. The result depends entirely on this assumption (sensitivity table below and in [METHOD.md](./METHOD.md)).
 
 **Status: proof of concept.** Bench prototype and replay only. This is independent research: the author is not a party to any operator or government contract and has no authorization from any operator.
 
@@ -16,7 +16,8 @@
 |---|---|
 | What is the problem? | Official station data records only docked bikes; bikes parked beside a full station do not exist in the data. |
 | What does this study do? | Replays public data (2026-07-21 to 10-15, 280 clean time slots, 96 two-kilometre circles) and estimates the trucks needed to cover the shortage off-peak. |
-| Main number | About 3.7 trucks per time slot within a 120-minute deadline (7.9 at 60 minutes, 2.6 at 180), **assuming 4,262 off-dock bikes**. |
+| Main number | About 3.7 trucks per time slot within a 120-minute deadline (7.9 at 60 minutes, 2.6 at 180), **assuming 4,262 off-dock bikes**; no stop time and straight-line distances, so it is closer to a lower bound than a forecast. Computed only for this one assumption. |
+| What do the trucks actually cover? | Only the part of the shortage that can be moved directly within 2 km: about 8%–26% on average in the replay. The rest is assumed to be covered by the off-dock (reserve) bikes being re-docked at peak. |
 | How strong is the evidence? | Replay estimates with no counterfactual and no field validation; the off-dock count is an assumption. |
 | What is the edge device? | A concept: a Bluetooth unit on the bike plus a "virtual dock" that records a temporary return in this study's own log. Bench-tested only. |
 | Is it deployed? | No. It must not be installed on operator vehicles without the operator's authorization. |
@@ -42,7 +43,7 @@ flowchart TD
     C --> D["Shortage = target level minus current"]
     D --> E["Forward routes within 2 km: 14 bikes per truck, no backtracking"]
     E --> F["How many trucks, and the latest departure time"]
-    D --> G["Remaining shortage: reserve bikes docked (peak, motorbike staff)"]
+    D --> G["Remainder: reserve bikes re-docked at peak by motorbike staff"]
     H["Edge reporting: Bluetooth temporary return (concept, bench only)"] -. replaces the estimate .-> B
 ```
 
@@ -80,15 +81,15 @@ A field example (one station, one moment, counted by eye; not a distribution and
 
 ## Why the shortage persists
 
-- Official figures: from end-2023 to end-2025 stations grew +8.4% and bikes +3.2% (−0.8 bikes per station). From end-2025 to 2026-09-30 stations grew +7.3% and the published bike count +0.0% (the bike column may not have been updated). The author's daily snapshots show docks +2.7% from 07-21 to 10-16. The total number of docks is not officially published, so the station count is a proxy. (Source years are ROC years 112, 114 and 115.)
-- The NT$5 ride voucher scheme ("友愛接力") was followed by lower counts: in Taoyuan, "cannot borrow" fell from 15,484 to 11,450 per month and "cannot return" from 690 to 454; the transport bureau reports improvements of about 27% and 34% (United Daily News, 2026-06-24, Taoyuan transport bureau statistics; the percentages are reported figures). The shortage remains: an incentive can only move part of the bikes.
+- Official figures: from end-2023 to end-2025 stations grew +8.4% and bikes +3.2% (−0.8 bikes per station). From end-2025 to 2026-09-30 stations grew +7.3% and the published bike count +0.0% (the bike column may not have been updated). The author's daily snapshots show docks +2.7% from 07-21 to 10-16; bikes are not published, so this series says nothing about bikes. The total number of docks is not officially published, so the station count is a proxy. (Source years are ROC years 112, 114 and 115.)
+- The NT$5 ride voucher scheme ("友愛接力") was followed by lower counts: in Taoyuan, "cannot borrow" fell from 15,484 to 11,450 per month and "cannot return" from 690 to 454; the transport bureau reports improvements of about 27% and 34% (United Daily News, 2026-06-24, Taoyuan transport bureau statistics; the percentages are reported figures, and the quoted counts compute to about 26% and 34%). The shortage remains: an incentive can only move part of the bikes.
 
 ## Approach
 
 1. **Each station's own usual level is its target**, not a city-wide ratio (median docked level per station, per window, per day type).
 2. **The unit is a 2 km shared-reservoir circle**; circles may overlap, and shared stations are the channels along which bikes move between circles. 96 circles in total: 72 main plus island groups.
 3. **Four evaluation windows** (05:30, 10:00, 15:30, 23:00); 05:30 and 15:30 are the completion deadlines.
-4. **Shortage = target level minus current level** (docked plus estimated off-dock).
+4. **Shortage = target level minus current docked level.** Truck moves and the estimated off-dock (reserve) bikes are then counted against it; what is still short is the **remaining shortage**.
 5. **Trucks handle only what can be moved directly within 2 km**, along forward routes (at most 14 bikes per truck, each leg at most 2 km, no backtracking inside a 120° sector); the rest relies on reserve bikes being re-docked by motorbike staff at peak (a layer change, totals unchanged).
 6. **Trucks leave from depots** (three approximate Taipei-side points) at an assumed 40 km/h, detour factor 1.3, no stop time; the model reports the minimum number of trucks that finishes within the deadline, under three loading-time assumptions.
 7. **Recomputed automatically every 30 minutes** in the author's local console.
@@ -126,7 +127,7 @@ How sensitive is the result to the one assumption that cannot be measured? Avera
 ```mermaid
 xychart-beta
     title "Remaining shortage (bikes) versus assumed off-dock bikes"
-    x-axis ["0", "1,000", "2,000", "4,262", "6,000", "8,000"]
+    x-axis ["0", "1000", "2000", "4262", "6000", "8000"]
     y-axis "Bikes still short" 0 --> 330
     bar [314.9, 129.5, 46.5, 4.75, 0.93, 0.16]
 ```
@@ -206,8 +207,8 @@ Screenshots of the author's local console (data batch 2026-10-21 22:25, captured
 | Usual level | A station's median docked bikes for a given window and day type; used as its target |
 | 2 km circle | A shared-reservoir circle; a station within 2,000 m of a circle centre belongs to it; circles may overlap |
 | Window | One of four evaluation times: 05:30, 10:00, 15:30, 23:00 |
-| Shortage | Target level minus current level (docked plus estimated off-dock) |
-| Remaining shortage | What is still short after ideal dispatch and the assumed reserve; a lower bound |
+| Shortage | Target level minus current docked level |
+| Remaining shortage | Shortage minus truck moves minus the assumed reserve; a lower bound. It measures distance from the usual level, not hours of empty or full stations |
 | Reserve | The self-estimated upper bound of 4,262 off-dock bikes, a scenario assumption |
 | Forward route | An ordered run of loads and unloads: at most 14 bikes per truck, each leg at most 2 km, no backtracking |
 | Temporary return | A concept: a Bluetooth report that a bike was left at a full station; not an official return |
@@ -230,12 +231,15 @@ Screenshots of the author's local console (data batch 2026-10-21 22:25, captured
 - The 4,262 off-dock figure is a self-estimated upper bound (a scenario assumption); results are highly sensitive to it.
 - "Remaining shortage" is the value under that estimate; with fewer off-dock bikes the shortage is larger, so it is a lower bound. The console screenshots label it "真實缺車".
 - The edge device has only been tested on a bench and in a local drill.
+- "Remaining shortage" measures distance from each station's usual level. A value near zero does not by itself mean fewer empty or full stations; no service outcome (minutes empty or full) was measured.
+- The 8%–26% share resolved directly by trucks is a replay average. The two live one-button batches published here are higher (about 54% and 49%), and the gap is not yet explained.
+- The truck count was computed only for the 4,262 assumption, with no stop time and straight-line distances.
 - Names such as YouBike belong to their owners; this is independent research with no affiliation or endorsement.
 - News items and online posts are cited only as case illustrations; details may have changed.
 
 ## Roadmap (90-day verification path)
 
-1. Oct–Nov 2026: end-to-end verification of bike unit + gateway uploading over the network.
+1. Oct–Nov 2026: end-to-end verification of bike unit + gateway uploading over the network (the October demo receiver was removed, so a new one is needed).
 2. Nov–Dec 2026: with an operator, compare estimates against its official data in 2–3 two-kilometre circles (not yet approached).
 3. Jan 2027: use reports to correct reserve allocation; add stop time and the real road network.
 
@@ -249,7 +253,7 @@ gantt
     section With an operator
     Compare estimates in 2-3 two-kilometre circles :2026-11-15, 2026-12-31
     section Refinement
-    Reports correct reserve allocation, add stop time and real roads :2027-01-01, 2027-01-31
+    Reports correct reserve allocation, add stop time and real roads :2027-01-01, 2027-01-20
 ```
 
 ## Licence
@@ -260,4 +264,4 @@ Documents, slides, diagrams and console screenshots in this repo are provided un
 
 Sun Jia-Rong (孫嘉嶸), jiarong0423@gmail.com
 
-Citation: Sun Jia-Rong, 2026, Zenodo, https://doi.org/10.5281/zenodo.23537185 (all versions; the latest version v1.0.1 is 10.5281/zenodo.23537764).
+Citation: Sun Jia-Rong, 2026, Zenodo, https://doi.org/10.5281/zenodo.23537185 (this DOI always resolves to the latest version).
