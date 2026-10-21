@@ -6,7 +6,7 @@ authors:
   - family-names: "孫"
     given-names: "嘉嶸"
     alias: "Sun Jia-Rong"
-version: 1.0.1
+version: 1.0.2
 date-released: "2026-10-21"
 license: CC-BY-NC-ND-4.0
 doi: 10.5281/zenodo.23537185
@@ -17,3 +17,6 @@ identifiers:
   - type: doi
     value: 10.5281/zenodo.23537186
     description: v1.0.0 版本 DOI
+  - type: doi
+    value: 10.5281/zenodo.23537764
+    description: v1.0.1 版本 DOI
