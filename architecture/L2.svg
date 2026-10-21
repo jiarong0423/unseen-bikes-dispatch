@@ -1,23 +1,27 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="366" viewBox="0 0 1180 366" font-family="PingFang TC, Noto Sans TC, sans-serif"><metadata>© 孫嘉嶸　獨立研究　2026-10-21｜jiarong0423@gmail.com</metadata>
-<rect width="1180" height="366" fill="#ffffff"/>
-<text x="24" y="40" font-size="26" font-weight="700" fill="#222">L2　資料與對照表</text>
-<text x="24" y="68" font-size="15" fill="#444">把收進來的官方站況變成可比對的表</text>
-<rect x="24" y="96" width="560" height="93" rx="8" fill="#f2f5f9" stroke="#5b6f8a" stroke-width="2"/>
-<text x="38" y="124" font-size="17" font-weight="700" fill="#222">日期對照表</text>
-<text x="38" y="153" font-size="14" fill="#333">官方行事曆（週末、國定假日、補假）分日型；特殊事件日標記後排除</text>
-<text x="38" y="177" font-size="13" fill="#5b6f8a">觸發：每天一次</text>
-<rect x="604" y="96" width="560" height="93" rx="8" fill="#f2f5f9" stroke="#5b6f8a" stroke-width="2"/>
-<text x="618" y="124" font-size="17" font-weight="700" fill="#222">每站平常水位（基礎表）</text>
-<text x="618" y="153" font-size="14" fill="#333">每站、每個窗口、每種日型的柱上水位中位數，當作該站的目標</text>
-<text x="618" y="177" font-size="13" fill="#5b6f8a">觸發：每天一次</text>
-<rect x="24" y="209" width="560" height="93" rx="8" fill="#f2f5f9" stroke="#5b6f8a" stroke-width="2"/>
-<text x="38" y="237" font-size="17" font-weight="700" fill="#222">站點與兩公里圈</text>
-<text x="38" y="266" font-size="14" fill="#333">圈心 2,000 公尺內的站屬於該圈，圈可重疊；共 96 圈（主要 72 圈加孤島群）</text>
-<text x="38" y="290" font-size="13" fill="#5b6f8a">觸發：站點變動時更新</text>
-<rect x="604" y="209" width="560" height="93" rx="8" fill="#f2f5f9" stroke="#5b6f8a" stroke-width="2"/>
-<text x="618" y="237" font-size="17" font-weight="700" fill="#222">新站自動納入圈</text>
-<text x="618" y="266" font-size="14" fill="#333">新站進對照表後自動歸入既有的圈，不移動圈心</text>
-<text x="618" y="290" font-size="13" fill="#5b6f8a">觸發：每天一次</text>
-<text x="24" y="352" font-size="12" fill="#777">架構示意（公開版，已簡化）｜演算法推演，不是營運成效</text>
-<g opacity="0.08" transform="rotate(-20 590 183)"><text x="590" y="194" text-anchor="middle" font-size="32" font-weight="bold" fill="#0b3a63" font-family="PingFang TC, Noto Sans TC, sans-serif">© 孫嘉嶸　獨立研究　2026-10-21</text></g>
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="408" viewBox="0 0 1180 408" font-family="Helvetica Neue, Arial, sans-serif"><metadata>© Sun Jia-Rong · Independent research · 2026-10-21 | jiarong0423@gmail.com</metadata>
+<rect width="1180" height="408" fill="#ffffff"/>
+<text x="24" y="40" font-size="26" font-weight="700" fill="#222">L2  Data and reference tables</text>
+<text x="24" y="68" font-size="15" fill="#444">Turn the collected official station data into comparable tables</text>
+<rect x="24" y="96" width="560" height="114" rx="8" fill="#f2f5f9" stroke="#5b6f8a" stroke-width="2"/>
+<text x="38" y="124" font-size="17" font-weight="700" fill="#222">Calendar table</text>
+<text x="38" y="153" font-size="14" fill="#333">Official calendar day types (weekends, public holidays, make-up days);</text>
+<text x="38" y="174" font-size="14" fill="#333">special-event days are marked and excluded</text>
+<text x="38" y="198" font-size="13" fill="#5b6f8a">Trigger: Daily</text>
+<rect x="604" y="96" width="560" height="114" rx="8" fill="#f2f5f9" stroke="#5b6f8a" stroke-width="2"/>
+<text x="618" y="124" font-size="17" font-weight="700" fill="#222">Station usual-level base table</text>
+<text x="618" y="153" font-size="14" fill="#333">Median docked level per station, per window, per day type; used as each station&#x27;s</text>
+<text x="618" y="174" font-size="14" fill="#333">target</text>
+<text x="618" y="198" font-size="13" fill="#5b6f8a">Trigger: Daily</text>
+<rect x="24" y="230" width="560" height="114" rx="8" fill="#f2f5f9" stroke="#5b6f8a" stroke-width="2"/>
+<text x="38" y="258" font-size="17" font-weight="700" fill="#222">Stations and 2 km circles</text>
+<text x="38" y="287" font-size="14" fill="#333">A station within 2,000 m of a circle centre belongs to that circle; circles may overlap;</text>
+<text x="38" y="308" font-size="14" fill="#333">96 circles (72 main plus island groups)</text>
+<text x="38" y="332" font-size="13" fill="#5b6f8a">Trigger: On station changes</text>
+<rect x="604" y="230" width="560" height="114" rx="8" fill="#f2f5f9" stroke="#5b6f8a" stroke-width="2"/>
+<text x="618" y="258" font-size="17" font-weight="700" fill="#222">New-station placement</text>
+<text x="618" y="287" font-size="14" fill="#333">New stations are assigned to existing circles automatically; circle centres do not</text>
+<text x="618" y="308" font-size="14" fill="#333">move</text>
+<text x="618" y="332" font-size="13" fill="#5b6f8a">Trigger: Daily</text>
+<text x="24" y="394" font-size="12" fill="#777">Architecture sketch (public, simplified) | Algorithmic replay, not operating results</text>
+<g opacity="0.08" transform="rotate(-20 590 204)"><text x="590" y="214" text-anchor="middle" font-size="28" font-weight="bold" fill="#0b3a63" font-family="Helvetica Neue, Arial, sans-serif">© Sun Jia-Rong · Independent research · 2026-10-21</text></g>
 </svg>

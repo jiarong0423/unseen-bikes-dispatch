@@ -1,50 +1,54 @@
-# NOTICE：授權範圍、第三方內容與資料來源
+# NOTICE: licence scope, third-party content and data sources
 
-## 授權聲明
+## Licence statement
 
-Copyright (c) 2026 孫嘉嶸 (Sun Jia-Rong)。本 repo 內所有文件檔（含 README.md、METHOD.md、本檔）、簡報 PDF、架構圖 SVG 與主控台截圖（以下稱「本作品」）以 Creative Commons 姓名標示－非商業性－禁止改作 4.0 國際（CC BY-NC-ND 4.0）授權：https://creativecommons.org/licenses/by-nc-nd/4.0/ ；官方法律條款全文就是本 repo 的 LICENSE 檔，與下面的白話說明不一致時，以 LICENSE 為準。
+Copyright (c) 2026 Sun Jia-Rong (孫嘉嶸). All documents in this repo (including README.md, METHOD.md and this file), the slide deck PDF, the architecture diagram SVGs and the console screenshots (together, "the work") are provided under the Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International licence (CC BY-NC-ND 4.0): https://creativecommons.org/licenses/by-nc-nd/4.0/ . The official legal code is the LICENSE file in this repo; if the plain-language summary below differs from it, LICENSE prevails.
 
-白話摘要（不取代法律條款）：
-- 可以：在任何媒介或格式重製、轉載、分享本作品。
-- 條件：標示作者姓名「孫嘉嶸」並附上授權連結；不得商業使用；不得散布改作後的版本（授權條款允許的私人、非商業改作與技術性格式轉換除外）。
-- 引用請寫：孫嘉嶸，〈共享單車「臨時無車位可還」：邊緣回報＋調度演算法（概念驗證）〉，2026-10-21，https://github.com/jiarong0423/unseen-bikes-dispatch
-- DOI：https://doi.org/10.5281/zenodo.23537185（所有版本）；最新版 v1.0.1：10.5281/zenodo.23537764
+Plain-language summary (not a substitute for the legal code):
+- You may: copy, redistribute and share the work in any medium or format.
+- Conditions: credit the author "Sun Jia-Rong (孫嘉嶸)" and link to the licence; no commercial use; do not distribute adapted versions (private, non-commercial adaptation and technical format conversion allowed by the licence excepted).
+- Please cite as: Sun Jia-Rong, "Bike-share 'no dock to return to': edge reporting and an off-peak dispatch algorithm (proof of concept)", 2026-10-21, https://github.com/jiarong0423/unseen-bikes-dispatch
+- DOI: https://doi.org/10.5281/zenodo.23537185 (all versions); latest version v1.0.1: 10.5281/zenodo.23537764
 
-不在本授權內：
-1. 專利：作者另有一件臺灣專利申請（標的與本文方法不同）。本授權只涵蓋著作權，不授予任何已核准或將核准之專利的明示或默示授權。商標與其他權利也不在授權內。
-2. 引用的第三方內容：新聞、公告與官方統計維持各自的權利人與條款（見下方）。
-3. 資料：官方站況等原始資料來自公開來源，依各來源條款使用；本 repo 不含原始快照。
-4. 程式碼、金鑰、通訊格式：本 repo 不含，也不在授權範圍內。
+Not covered by this licence:
+1. Patents: the author has a separate Taiwanese patent application whose subject differs from the method described here. This licence covers copyright only and grants no express or implied patent licence, trademark right or other right.
+2. Quoted third-party content: news items, notices and official statistics remain under their owners' terms (listed below).
+3. Data: official station data and other raw data come from public sources and remain under their terms; this repo contains no raw snapshots.
+4. Code, keys and communication formats: not included in this repo and not covered by this licence.
 
-本作品依「現狀」提供。結果是以公開資料回放的演算法推演，不是營運成效；作者與任何營運商、政府機關無隸屬或背書關係。本檔是作者的授權聲明，不是法律意見。
+The work is provided "as is". Results are algorithmic replay estimates from public data, not operating results; the author has no affiliation with, or endorsement from, any operator or government agency. This file is the author's licence statement, not legal advice.
 
-## 圖片
+## Images
 
-- 簡報第 7 頁的車機圖是作者自繪的示意圖，不是營運商圖面，沒有使用任何第三方照片或標誌。
-- 簡報第 10 頁的實驗台照片是作者自己拍攝。
-- 簡報第 9 頁的「卡片管理（示意）」是作者依網友分享的內容重繪的示意圖，不是原始截圖，不含帳號或個人資訊。
-- 簡報第 12 頁雲端接單頁截圖是示範資料（示範機已於 2026-10-21 拆除），站名與站號已模糊。
-- 主控台截圖與架構圖是作者自己的系統輸出，上面只有公開的站點與圈名稱。
+- Deck page 7 (the bike unit) is a sketch drawn by the author; it is not an operator drawing and uses no third-party photo or logo.
+- Deck page 10 (the bench) is the author's own photograph.
+- Deck page 9 ("rental card, illustration") is a redrawn illustration based on a user's shared post; it is not an original screenshot and contains no account or personal information.
+- Deck page 12 (cloud task page) is demo data; the demo unit has been removed (2026-10-21) and the station name and ID are blurred.
+- The console screenshots and architecture diagrams are the author's own system output and show only public station and circle names. The console UI is in Traditional Chinese.
 
-## 商標與名稱
+## Trademarks and names
 
-YouBike 屬微笑單車股份有限公司，悠遊卡屬悠遊卡股份有限公司，其他名稱與標誌屬各權利人。本 repo 沒有放置任何商標圖樣；本專案是獨立研究，與營運商、政府機關無隸屬、合作或背書關係。
+YouBike is a mark of 微笑單車股份有限公司 (YouBike Co., Ltd.) and EasyCard of 悠遊卡股份有限公司; other names and logos belong to their owners. This repo contains no trademark artwork. This is independent research with no affiliation, partnership or endorsement.
 
-## 資料與引用
+## Data and citations
 
-- 官方公開即時站況：依各來源條款使用；本 repo 不含原始快照，不再散布。
-- 官方統計：主計處 115 年第 19 號統計通報（站點數與車輛數）。
-- 新聞與公告（僅標示標題、媒體與日期作案例說明，細節可能已調整，以原文為準）：
-  - TVBS 2024-08-14（滿站流程）
-  - TVBS 英文版 2025-10-02（2025-10-01 北北桃系統故障）
-  - 民視英文新聞 2024-06（2024-06-11 全台故障）
-  - 聯合報 2025-08-06、2025-09-30（貨車載量、調度規模）
-  - 新北市政府新聞稿 2025-09-01
-  - 聯合報 2026-06-24（桃園市交通局統計：友愛接力成效，改善率為報導數字）
-  - 臺北市交通局常見問答（壞車通報）
-- 網友經驗：Dcard、PTT、社群貼文僅作單一事件案例，未引用帳號或原文，未經查證。
-- 各來源的授權條款與引用格式仍在逐項核對中。
+- Official public live station data: used under each source's terms; this repo contains no raw snapshots and does not redistribute them.
+- Official statistics: DGBAS (主計處) statistical bulletin No. 19 of ROC year 115 (stations and bikes).
+- News and notices (title, outlet and date only, as case illustrations; details may have changed, the original prevails):
+  - TVBS 2024-08-14 (full-station process)
+  - TVBS English 2025-10-02 (the 2025-10-01 outage in Taipei, New Taipei and Taoyuan)
+  - FTV English News 2024-06 (the 2024-06-11 nationwide outage)
+  - United Daily News 2025-08-06 and 2025-09-30 (truck capacity, dispatch scale)
+  - New Taipei City Government press release 2025-09-01
+  - United Daily News 2026-06-24 (Taoyuan transport bureau statistics on the NT$5 voucher scheme; improvement rates are reported figures)
+  - Taipei transport bureau FAQ (broken-bike reports)
+- User experience: Dcard, PTT and social-media posts are cited only as single-event cases; no accounts or original text are quoted, and they are unverified.
+- Licensing terms and citation formats of each source are still being checked one by one.
 
-## 回報問題
+## Patent
 
-發現引用有誤、素材授權有疑慮或個資問題，請寄 jiarong0423@gmail.com，核對後會更正或移除。
+The author has a separate Taiwanese patent application whose subject differs from this method. This repo's licence covers copyright only and grants no express or implied patent licence.
+
+## Reporting a problem
+
+If you find a wrong citation, a doubtful licence on some material, or a privacy problem, please write to jiarong0423@gmail.com; it will be corrected or removed after checking.

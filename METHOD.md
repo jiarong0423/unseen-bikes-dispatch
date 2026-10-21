@@ -1,84 +1,82 @@
-# 方法說明
+# Method
 
-本文件把簡報背後的做法寫成可讀、可檢驗的規格。
-所有數字是以官方公開站況回放的**演算法推演**，不是營運成效。柱外車量是**自行從官方資料推估的上界**，不是現場實測。本文件揭露方法與結果；不含程式碼、原始快照、金鑰與封包格式。
+This document writes the approach behind the slides as a readable, checkable specification. All numbers are **algorithmic replay estimates** from official public station data, not operating results. The off-dock bike count is a **self-estimated upper bound derived from official data**, not a field measurement. The document discloses method and results; it does not contain code, raw snapshots, keys or the packet format.
 
-## 1. 問題
+## 1. The problem
 
-站內沒有空位時，車停在柱外並通知站務人員到場，期間計費延長。官方站況只記錄柱上的車，柱外的車在資料裡不存在，站況與現場可能不一致。
+When a station has no free dock, the bike is parked outside the docks and staff are called; billing is extended meanwhile. Official station data records only docked bikes, so off-dock bikes do not exist in the data and the data can disagree with the field.
 
-現場實例（一站、一時刻、目測，不是分布也不是全市平均）：桃園某站，2026-09-17，25 根柱，另有 20 台停在柱外。它證明的是「現象存在、量得到、官方站況欄位表達不出來」。
+A field example (one station, one moment, counted by eye; not a distribution and not a city average): a station in Taoyuan on 2026-09-17, 25 docks, with another 20 bikes parked outside. It shows that the phenomenon exists, can be counted, and cannot be expressed by the official station fields.
 
-## 2. 輸入資料
+## 2. Inputs
 
-- 官方公開即時站況（可借、空位），加上自行每天累積的快照。
-- 站點與圈的對照表（兩公里共用水庫圈，主要 72 圈＋孤島群，共 96 圈）。
-- 公開報導的貨車參數：新北調度貨車 41 輛、載量約 14 台（營運商說法）。
-- 不使用使用者身分、騎乘軌跡。
+- Official public live station data (bikes available, docks free), plus the author's own daily snapshots.
+- A station-to-circle mapping (2 km shared-reservoir circles: 72 main circles plus island groups, 96 in total).
+- Truck parameters from public reports: New Taipei dispatch fleet of 41 trucks, about 14 bikes per truck (the operator's statement).
+- No rider identity and no ride tracks are used.
 
-## 3. 演算法
+## 3. Algorithm
 
-1. **每站目標水位＝它自己平常的水位**（不用全市一律的比例）。「平常」由基礎表給定：每站、每個窗口、每種日型（假日以官方行事曆為準）的柱上水位中位數；特殊事件日與停班停課日排除在外。
-2. **單位是兩公里共用水庫圈**：站與圈心距離不超過 2,000 公尺即屬於該圈，圈可以重疊（共用站是車在圈間流動的通路）。
-3. **四個評估窗口**：05:30、10:00、15:30、23:00。05:30 與 15:30 是貨車完成期限。
-4. **缺口**＝目標水位總量減去現況（柱上＋推估的柱外車）。柱外車量採自行推估的上界 4,262 台（由凌晨 03–04 時柱上車數與車隊下界的差額推得；不是實測），敏感度見第 5 節。
-5. **貨車只做 2 公里內能直接搬的部分**，其餘靠各圈備用車上樁（機車解綁，換層、總數不變）。
-6. **順向路線規則**：一車最多 14 台；每一段 ≤ 2 公里；不折返（各段方向落在同一個 120° 扇形內）。
-7. **貨車數**：從調度場出發（臺北側三處近似位置：萬華、內湖、公館／大安，座標為地標近似，不是門牌），時速 40 公里、迂迴係數 1.3、不含停靠時間；在期限內補完所需的最少台數，列出樂觀／中間／保守三種裝卸時間假設。
-8. 每 30 分鐘自動重算一批。
+1. **Each station's target level is its own usual level**, not a city-wide ratio. "Usual" comes from a base table: the median docked level per station, per window and per day type (holidays follow the official calendar); special-event days and typhoon-closure days are excluded.
+2. **The unit is a 2 km shared-reservoir circle**: a station belongs to a circle if it is within 2,000 m of the circle centre. Circles may overlap (shared stations are the channels through which bikes move between circles).
+3. **Four evaluation windows**: 05:30, 10:00, 15:30, 23:00. 05:30 and 15:30 are completion deadlines for trucks.
+4. **Shortage** = target total level minus current level (docked + estimated off-dock). The off-dock count uses a self-estimated upper bound of 4,262 bikes (derived from the difference between docked bikes at 03:00–04:00 and the fleet lower bound; not measured). See the sensitivity table in section 5.
+5. **Trucks only handle what can be moved directly within 2 km**; the rest relies on each circle's reserve bikes being re-docked (motorbike staff re-dock bikes: layer change, total unchanged).
+6. **Forward-route rules**: at most 14 bikes per truck; each leg at most 2 km; no backtracking (all legs inside one 120° sector).
+7. **Number of trucks**: trucks leave from depots (three approximate Taipei-side locations: Wanhua, Neihu, Gongguan/Da'an; coordinates are landmark approximations, not street addresses), at 40 km/h, detour factor 1.3, no stop time; the minimum number of trucks needed to finish within the deadline is reported under three loading-time assumptions (optimistic / middle / conservative).
+8. The computation is rerun automatically every 30 minutes.
 
-## 4. 邊緣裝置（補柱外那一層）
+## 4. The edge device (the off-dock layer)
 
-- **車機**：構想是裝在腳踏車上（官方 YouBike 2.0 車機同樣在車上，訊號源是車本身）。實驗台用開發板＋按鈕模組。民眾按按鈕觸發臨時還車，另有定時心跳。
-- **無線封包**：藍牙廣播短封包，附驗證碼；金鑰與封包格式細節不公開。
-- **虛擬柱（閘道）**：站點附近，與車機配對，有去重複、冷卻與回報時效，並在本方案自己的回報檔登記一次臨時還車。**不送入營運商系統，也不改任何營運商紀錄。**
-- **臨時還車不等於官方還車，計費不會停止，請勿因此把車留在柱外；回報是未驗證訊號，不單獨驅動派車。**
-- **回報欄位**：哪一站、幾台、什麼時候、誰回報（回報人代號）。代號不對應姓名，不蒐集使用者身分與車號；代號的保存期限與刪除規則尚未定。
-- **角色**：使用者用藍牙與虛擬柱配對，臨時還車；實體鎖與扣款仍由官方負責，本方案不解鎖、不控鎖、不改計費。尖峰機車解綁人員的現場作業不在本提案範圍。
-- **已驗證的環節**：車機→廣播→閘道（實驗台近距離）；閘道→主控台（本機事件演練）。**尚未做**：車機經網路上傳、多板、真車配對、與營運單位正式資料對照。**僅限實驗台，未獲營運商授權不得安裝於營運車輛。**
+- **Bike unit**: the concept is a unit mounted on the bike (the official YouBike 2.0 unit is also on the bike, the bike itself is the signal source). On the bench: a development board plus a button module. The rider presses the button to trigger a temporary return; there is also a periodic heartbeat.
+- **Wireless packet**: short Bluetooth advertisement with an authentication code; keys and packet format are not published.
+- **Virtual dock (gateway)**: near the station, pairs with the bike unit, with de-duplication, cooldown and a freshness window, and records one temporary return in this study's own log. **Nothing is sent into any operator system and no operator record is changed.**
+- **A temporary return is not an official return. Billing does not stop. Do not leave a bike outside the docks because of it. Reports are unverified signals and never drive dispatch on their own.**
+- **Report fields**: which station, how many, when, who reported (a reporter code). The code does not correspond to a name; no rider identity or bike number is collected; retention and deletion rules for the code are not yet defined.
+- **Roles**: the rider pairs with the virtual dock over Bluetooth and makes the temporary return; the physical lock and payment stay with the operator; nothing here unlocks, controls a lock or changes billing. Field work by peak-hour motorbike staff is outside this proposal.
+- **Verified so far**: bike unit → advertisement → gateway (bench, short range); gateway → console (local event drill). **Not done**: uploading over the network, multiple boards, pairing with real bikes, comparison with operator data. **Bench only; not to be installed on operator vehicles without authorization.**
 
-## 5. 結果與敏感度（回放推估）
+## 5. Results and sensitivity (replay estimates)
 
-資料：2026-07-21～10-15 的 280 個資料乾淨時段，主要 72 圈口徑。
+Data: 280 clean slots from 2026-07-21 to 10-15, main 72-circle basis.
 
-| 假設的柱外車量（全市；4,262＝自行推估上界） | 0 | 1,000 | 2,000 | 4,262 | 6,000 | 8,000 |
+| Assumed off-dock bikes (citywide; 4,262 = self-estimated upper bound) | 0 | 1,000 | 2,000 | 4,262 | 6,000 | 8,000 |
 |---|---:|---:|---:|---:|---:|---:|
-| 全時段平均仍缺（台） | 314.9 | 129.5 | 46.5 | 4.75 | 0.93 | 0.16 |
-| 平日 15:30 | 522.7 | 218.3 | 76.0 | 9.11 | 2.28 | 0.34 |
-| 平日 10:00 | 146.9 | 62.1 | 29.0 | 3.72 | 0.76 | 0.28 |
+| Average shortage remaining, all slots (bikes) | 314.9 | 129.5 | 46.5 | 4.75 | 0.93 | 0.16 |
+| Weekday 15:30 | 522.7 | 218.3 | 76.0 | 9.11 | 2.28 | 0.34 |
+| Weekday 10:00 | 146.9 | 62.1 | 29.0 | 3.72 | 0.76 | 0.28 |
 
-貨車數與完成期限（全市 96 圈回放；時速 40、迂迴 1.3、不含停靠）：
+Trucks versus completion deadline (96 circles citywide replay; 40 km/h, detour 1.3, no stop time):
 
-| 期限 | 60 分鐘 | 120 分鐘 | 180 分鐘 |
+| Deadline | 60 min | 120 min | 180 min |
 |---|---:|---:|---:|
-| 每時段貨車數 | 7.9 | 3.7 | 2.6 |
+| Trucks per slot | 7.9 | 3.7 | 2.6 |
 
-其他：平日補完仍缺 0.6～3.6 台（樣本外 7 天）；貨車直接解決的缺口約 8%～26%；國慶連假 15:30 缺口最大（2,628 台，補完仍缺 253 台，是下界）。
+Others: weekday remaining shortage 0.6–3.6 bikes (7 out-of-sample days); trucks directly resolve about 8%–26% of the shortage; the National Day holiday at 15:30 has the largest shortage (2,628 bikes, 253 remaining; a lower bound).
 
-## 6. 限制（先講清楚）
+## 6. Limitations (stated up front)
 
-- 「真實缺車」（主控台與部分圖上的用詞）與「補完仍缺」（文件與簡報的用詞）是同一件事。
-- 「缺口」在本文件指：各圈目標水位總量減現況（柱上＋推估柱外車）的不足；不同頁面的分母不同（72 圈／96 圈、單一批次／280 時段回放），數字不可互相直接比較。「貨車直接解決的缺口 8%～26%」是回放平均；單一批次（例如一鍵派工那一批）的比例會不同。
-- 期限放寬使同時出車的貨車變少，但總作業量約略相同（約 7.4～7.9 台時），並不是人力減少。
-- 「平日補完仍缺 0.6～3.6 台」是樣本外 7 天；第 5 節敏感度表（平日 15:30 為 9.11、10:00 為 3.72）是 280 時段平均，樣本與口徑不同，不可直接比較。
-- 「貨車直接解決的缺口 8%～26%」是 280 時段回放的平均範圍；已知單一批次（2026-10-21 18:59 批，23:00 窗口）的比例約 54%，高於此範圍，原因（分母、時段、日型）尚未查明，兩者不可直接比較。
-- 「補完仍缺」是在推估備載（4,262 台）下的值，備載更少時缺口更大，因此是下界。
-- 尚未公開的細節：貨車最少台數的求解細節、備用車在各圈的分配權重、乾淨日的判定細節。
+- "Remaining shortage" in this repo is what the Traditional Chinese console UI calls "真實缺車" and the Chinese drafts call "補完仍缺": the same quantity.
+- "Shortage" here means: the circles' target total level minus the current level (docked + estimated off-dock). Denominators differ between pages (72 vs 96 circles; one batch vs a 280-slot replay), so figures are not directly comparable. "Trucks directly resolve 8%–26%" is a replay average; a single batch (for example the one-button batch) can differ.
+- A longer deadline reduces the number of trucks running at the same time, but total workload is about the same (about 7.4–7.9 truck-hours), so it is not a saving in labour.
+- "Weekday remaining shortage 0.6–3.6" is from 7 out-of-sample days; the sensitivity table in section 5 (weekday 15:30: 9.11, 10:00: 3.72) is the 280-slot average. Sample and basis differ; do not compare directly.
+- "Trucks directly resolve 8%–26%" is the range of averages over the 280-slot replay; the one known single batch (2026-10-21 18:59, 23:00 window) shows about 54%, above this range, for reasons not yet investigated (denominator, window, day type). Not directly comparable.
+- "Remaining shortage" is the value under the estimated reserve (4,262); with fewer reserve bikes the shortage is larger, so it is a lower bound.
+- Details not published: how the minimum truck count is solved, the weights used to spread reserve bikes over circles, the criteria for clean days.
+- There is no citywide measurement of off-dock bikes; the field count is one station at one moment. Results are highly sensitive to this assumption, which is exactly the value of edge reporting.
+- The replay has no counterfactual and no field validation.
+- Distances are straight lines between circle centres, with no real road network and no stop time.
+- Patent: the author has a separate Taiwanese patent application whose subject differs from this method; this document grants no patent rights.
+- Data licensing and personal-data aspects are still being verified; redistribution of snapshots and scraping of announcements should be checked by counsel, so this repo contains neither raw snapshots nor code.
 
-- 柱外車量沒有全市實測；現場點算只有一站一時刻。結果對這個假設高度敏感，這正是邊緣回報的價值。
-- 回放推估沒有反事實對照，也沒有現場驗證。
-- 里程是圈心之間的直線距離，不含真實路網與停靠時間。
-- 專利：作者另有一件臺灣專利申請，標的與本文方法不同；本文不授予專利權。
-- 資料授權與個資面向持續確認；快照再散布與公告擷取請法務確認，所以本 repo 不含原始快照與程式碼。
+## 7. What this repo does not contain
 
-## 7. 這個 repo 沒有放的東西
+- Raw station snapshots and per-station data (licences not checked item by item).
+- Code, keys, concrete communication parameters.
+- Contact phone numbers, rider identities or bike numbers.
 
-- 原始站況快照與逐站資料（授權未逐項核對）。
-- 程式碼、金鑰、通訊參數的具體數值。
-- 任何個人聯絡電話、使用者身分、車號。
+## 8. Licence and trademarks
 
-## 8. 授權與商標
+Documents, slides, diagrams and console screenshots in this repo are provided under CC BY-NC-ND 4.0 (see LICENSE and NOTICE.md). The slides use no third-party photo or logo: the bike unit is the author's own sketch and the bench photo is the author's own. Names such as YouBike belong to their owners; this is independent research with no affiliation or endorsement.
 
-本 repo 的文件、簡報、架構圖與主控台截圖以 CC BY-NC-ND 4.0 提供（見 LICENSE、NOTICE.md）。簡報沒有使用任何第三方照片或標誌：車機是作者自繪的示意圖，實驗台照片是作者自己拍的。YouBike、微笑單車、悠遊卡等名稱屬各權利人；本專案為獨立研究，與營運商無隸屬或背書關係。
-
-聯絡：孫嘉嶸　jiarong0423@gmail.com
+Contact: Sun Jia-Rong (孫嘉嶸), jiarong0423@gmail.com
