@@ -5,7 +5,7 @@ title: "Bike-share \"no dock to return to\": edge reporting and an off-peak disp
 authors:
   - family-names: "Sun"
     given-names: "Jia-Rong"
-version: 1.0.4
+version: 1.0.5
 date-released: "2026-10-22"
 license: CC-BY-NC-ND-4.0
 doi: 10.5281/zenodo.23537185

@@ -5,7 +5,7 @@
 <rect x="24" y="96" width="1132" height="146" rx="8" fill="#f2f5f9" stroke="#5b6f8a" stroke-width="2"/>
 <text x="38" y="124" font-size="19" font-weight="700" fill="#222">1. Data layer<tspan font-size="16" font-weight="400" fill="#5b6f8a">   What the official data can and cannot see</tspan></text>
 <text x="38" y="162" font-size="16" fill="#333">- Official station snapshots: bikes and free docks per station, every 5/15/30 minutes; only docked bikes are visible, off-dock bikes are not</text>
-<text x="38" y="186" font-size="16" fill="#333">- Off-dock bikes: a self-estimated upper bound of 4,262 from official data (a scenario assumption, not a measurement)</text>
+<text x="38" y="186" font-size="16" fill="#333">- Off-dock bikes: an assumed maximum of 4,262 derived from official data (a scenario value, not a citywide count)</text>
 <text x="38" y="210" font-size="16" fill="#333">- Natural returns: historical returns per station per 10 minutes, weekdays and holidays kept apart</text>
 <text x="44" y="266" font-size="16" fill="#5b6f8a">↓  Hands over: docked bikes per station, dock counts, estimated reserve bikes</text>
 <rect x="24" y="280" width="1132" height="122" rx="8" fill="#f2f5f9" stroke="#5b6f8a" stroke-width="2"/>

@@ -6,7 +6,7 @@
 
 **In one paragraph.** When a bike-share station is full, bikes end up parked outside the docks, and the official station data cannot see them. This study replays public station data to estimate how a few trucks, working off-peak along forward routes inside 2 km circles, could pre-position bikes before the peak, and how a Bluetooth "temporary return" could make the unseen bikes visible. It is an algorithmic replay, not operating results; nothing is deployed in the field.
 
-**The conclusion holds only under an assumption.** If 4,262 bikes are assumed to be parked off-dock (a self-estimated upper bound, not a measurement), about 3.7 trucks per time slot (120-minute deadline, no stop time, 96-circle replay) could move the part of the shortage that can be moved directly within 2 km (a replay average of 8%–26%); the rest is assumed to be covered by re-docking the off-dock bikes at peak. With 0 off-dock bikes assumed, the weekday 15:30 shortage is still about 522.7 bikes. The result depends entirely on this assumption (sensitivity table below and in [METHOD.md](./METHOD.md)).
+**The conclusion holds only under an assumption.** If 4,262 bikes are assumed to be parked off-dock (an assumed maximum, not a citywide count; see the FAQ), about 3.7 trucks per time slot (120-minute deadline, no stop time, 96-circle replay) could move the part of the shortage that can be moved directly within 2 km (a replay average of 8%–26%); the rest is assumed to be covered by re-docking the off-dock bikes at peak. With 0 off-dock bikes assumed, the weekday 15:30 shortage is still about 522.7 bikes. The result depends entirely on this assumption (sensitivity table below and in [METHOD.md](./METHOD.md)).
 
 **Status: proof of concept.** Bench prototype and replay only. This is independent research: the author is not a party to any operator or government contract and has no authorization from any operator.
 
@@ -39,7 +39,7 @@
 ```mermaid
 flowchart TD
     A["Official station snapshots (only docked bikes are visible)"] --> C["2 km circles: each station's usual level is its target"]
-    B["Off-dock bikes (self-estimated upper bound, scenario assumption)"] --> C
+    B["Off-dock bikes (assumed maximum, scenario value)"] --> C
     C --> D["Shortage = target level minus current"]
     D --> E["Forward routes within 2 km: 14 bikes per truck, no backtracking"]
     E --> F["How many trucks, and the latest departure time"]
@@ -77,7 +77,7 @@ Bike-share station data is public, and in the author's observation it is a commo
 
 When a station has no free dock, the bike cannot be returned. It is parked beside the docks and staff must come; billing is extended meanwhile (operator customer-service description and user reports; the operator's notices are authoritative). Official station data records only docked bikes, so off-dock bikes do not exist in the data, and the data can disagree with the field.
 
-A field example (one station, one moment, counted by eye; not a distribution and not a citywide average): a station in Taoyuan on 2026-09-17 had 25 docks with another 20 bikes parked outside. It shows that the phenomenon exists, can be counted, and cannot be expressed by the official station fields.
+A field example (one station, one moment, counted by eye; not a distribution and not a citywide average): a station in Taoyuan on 2026-09-17 had 25 docks with another 20 bikes standing outside the rails (photographed; the author counted them). At 17:15 the official feed showed 2 bikes available while about 22 were on site, and on 2026-09-22 the author again reported about 20 outside while the docks were nearly full. It shows that the phenomenon exists, can be counted, and cannot be expressed by the official station fields. These two visits are the only direct observations; the station is outside the New Taipei data scope, and the full-resolution originals are not published.
 
 ## Why the shortage persists
 
@@ -208,8 +208,8 @@ Screenshots of the author's local console (data batch 2026-10-21 22:25, captured
 | 2 km circle | A shared-reservoir circle; a station within 2,000 m of a circle centre belongs to it; circles may overlap |
 | Window | One of four evaluation times: 05:30, 10:00, 15:30, 23:00 |
 | Shortage | Target level minus current docked level |
-| Remaining shortage | Shortage minus truck moves minus the assumed reserve; a lower bound. It measures distance from the usual level, not hours of empty or full stations |
-| Reserve | The self-estimated upper bound of 4,262 off-dock bikes, a scenario assumption |
+| Remaining shortage | Shortage minus truck moves minus the assumed reserve; a lower bound only if no more than 4,262 bikes are really off-dock. It measures distance from the usual level, not hours of empty or full stations |
+| Reserve | The assumed maximum of 4,262 off-dock bikes, a scenario value (see the FAQ) |
 | Forward route | An ordered run of loads and unloads: at most 14 bikes per truck, each leg at most 2 km, no backtracking |
 | Temporary return | A concept: a Bluetooth report that a bike was left at a full station; not an official return |
 | Clean slot | A time slot whose station data passed the quality checks (280 between 2026-07-21 and 10-15) |
@@ -218,7 +218,7 @@ Screenshots of the author's local console (data batch 2026-10-21 22:25, captured
 ## FAQ
 
 - **Is this running anywhere?** No. The replay and the local console run on the author's machine only. A cloud demo receiver was used briefly in October 2026 and has been removed.
-- **Where does 4,262 come from?** It is a self-estimated upper bound derived from official data (the difference between docked bikes at 03:00–04:00 and the fleet lower bound). It is not a measurement, which is why the sensitivity table is part of the result.
+- **Where does 4,262 come from?** It is the gap between the median number of docked bikes at 03:00–04:00 (17,628) and an estimated fleet of 21,890 (the peak number docked at one moment, 19,450, plus an assumed 1,830–3,660 bikes on the road). It is a working scenario value, not a count of bikes beside full stations: the gap also contains broken, in-repair, in-truck and riding bikes. As a cross-check, the official end-2025 fleet of 23,479 bikes minus about 17,500 docked at 03:00 leaves a pool of about 5,950 non-docked bikes of every kind (the official figure may not be current), so 4,262 is the same order of magnitude. That is why the sensitivity table runs from 0 to 8,000.
 - **Why not just predict demand?** Demand prediction cannot see bikes that are not in the data. This study asks where the invisible layer should be pre-positioned.
 - **Does it need the edge device?** No. The estimate can be computed without it; the device would replace the assumed off-dock count with reports.
 - **Is the data public?** The station data is public; this repo does not redistribute raw snapshots, and licensing of each source is still being verified (see [NOTICE.md](./NOTICE.md)).
@@ -228,8 +228,8 @@ Screenshots of the author's local console (data batch 2026-10-21 22:25, captured
 ## Scope and limits
 
 - Results are replay estimates from official data. They are not operating results, there is no counterfactual, and real dispatch is the operator's job.
-- The 4,262 off-dock figure is a self-estimated upper bound (a scenario assumption); results are highly sensitive to it.
-- "Remaining shortage" is the value under that estimate; with fewer off-dock bikes the shortage is larger, so it is a lower bound. The console screenshots label it "真實缺車".
+- The 4,262 off-dock figure is an assumed maximum (a scenario value), not a citywide count; results are highly sensitive to it. The only direct observations of off-dock bikes are two visits to one station.
+- "Remaining shortage" is the value under the 4,262 scenario: with fewer off-dock bikes the shortage is larger, with more it is smaller (see the sensitivity table). It is a lower bound only if no more than 4,262 bikes are really off-dock. The console screenshots label it "真實缺車".
 - The edge device has only been tested on a bench and in a local drill.
 - "Remaining shortage" measures distance from each station's usual level. A value near zero does not by itself mean fewer empty or full stations; no service outcome (minutes empty or full) was measured.
 - The 8%–26% share resolved directly by trucks is a replay average. The two live one-button batches published here are higher (about 54% and 49%), and the gap is not yet explained.
