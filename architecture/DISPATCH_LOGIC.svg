@@ -7,7 +7,7 @@
 <text x="38" y="159" font-size="14" fill="#333">• 官方站況快照：每站可借、空位，每 5／15／30 分一筆；只看得到柱上的車，看不到柱外車</text>
 <text x="38" y="180" font-size="14" fill="#333">• 柱外車量：自行從官方資料推估的上界 4,262 台（情境假設，不是實測）</text>
 <text x="38" y="201" font-size="14" fill="#333">• 自然還車：每站每 10 分鐘的歷史還車，平日與假日分開</text>
-<text x="44" y="257" font-size="14" fill="#5b6f8a">↓　交出：每站實際樁上車數、柱數、推估備用車</text>
+<text x="44" y="257" font-size="14" fill="#5b6f8a">↓　交出：每站實際柱上車數、柱數、推估備用車</text>
 <rect x="24" y="271" width="1132" height="116" rx="8" fill="#f2f5f9" stroke="#5b6f8a" stroke-width="2"/>
 <text x="38" y="299" font-size="17" font-weight="700" fill="#222">② 幾何層<tspan font-size="14" font-weight="400" fill="#5b6f8a">　兩公里圈</tspan></text>
 <text x="38" y="334" font-size="14" fill="#333">• 圈心 2,000 公尺內的站屬於該圈，圈可重疊；站屬多圈時，車與柱均分</text>
@@ -15,7 +15,7 @@
 <text x="44" y="411" font-size="14" fill="#5b6f8a">↓　交出：每圈的站集合、均分後的車與柱</text>
 <rect x="24" y="425" width="1132" height="137" rx="8" fill="#f2f5f9" stroke="#5b6f8a" stroke-width="2"/>
 <text x="38" y="453" font-size="17" font-weight="700" fill="#222">③ 區域水位層（貨車：兩公里區域內水位平衡）<tspan font-size="14" font-weight="400" fill="#5b6f8a">　只搬總量，不回應個別事件</tspan></text>
-<text x="38" y="488" font-size="14" fill="#333">• 目標＝每站自己平常的水位 × 柱數；缺口＝目標減現況（樁上加推估備用車）</text>
+<text x="38" y="488" font-size="14" fill="#333">• 目標＝每站自己平常的水位 × 柱數；缺口＝目標減現況（柱上加推估備用車）</text>
 <text x="38" y="509" font-size="14" fill="#333">• 兩公里內能直接調度的先調，其餘靠備用車上樁；扣掉後仍缺的量＝真實缺車</text>
 <text x="38" y="530" font-size="14" fill="#333">• 四個窗口 05:30、10:00、15:30、23:00；離峰預置，尖峰不出車；每 30 分鐘算一批並記錄</text>
 <text x="44" y="586" font-size="14" fill="#5b6f8a">↓　交出：每圈缺口、2 km 內調度量、真實缺車</text>

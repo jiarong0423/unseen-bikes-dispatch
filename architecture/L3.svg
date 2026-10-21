@@ -4,7 +4,7 @@
 <text x="24" y="68" font-size="15" fill="#444">數字與詞的定義；改口徑先改這裡</text>
 <rect x="24" y="96" width="560" height="93" rx="8" fill="#f2f5f9" stroke="#5b6f8a" stroke-width="2"/>
 <text x="38" y="124" font-size="17" font-weight="700" fill="#222">水位定義</text>
-<text x="38" y="153" font-size="14" fill="#333">樁上與備用車（推估）兩層分開定義，不混用</text>
+<text x="38" y="153" font-size="14" fill="#333">柱上與備用車（推估）兩層分開定義，不混用</text>
 <text x="38" y="177" font-size="13" fill="#5b6f8a">觸發：手動維護</text>
 <rect x="604" y="96" width="560" height="93" rx="8" fill="#f2f5f9" stroke="#5b6f8a" stroke-width="2"/>
 <text x="618" y="124" font-size="17" font-weight="700" fill="#222">假設參數</text>

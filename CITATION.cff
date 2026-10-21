@@ -6,9 +6,14 @@ authors:
   - family-names: "孫"
     given-names: "嘉嶸"
     alias: "Sun Jia-Rong"
+version: 1.0.1
 date-released: "2026-10-21"
 license: CC-BY-NC-ND-4.0
 doi: 10.5281/zenodo.23537185
 repository: "https://github.com/jiarong0423/unseen-bikes-dispatch"
 url: "https://github.com/jiarong0423/unseen-bikes-dispatch"
 abstract: "站滿時車停在柱外，官方站況資料看不到。本研究以公開資料與回放推演，提出兩公里共用水庫圈、順向排線與離峰少量貨車預置的調度方法；結果是演算法推演，不是營運成效。"
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.23537186
+    description: v1.0.0 版本 DOI
